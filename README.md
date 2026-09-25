@@ -12,4 +12,4 @@ The JSON file is stored at `%LOCALAPPDATA%\BudgetTracker\transactions.json`. If 
 
 ## References and Tools Used
 
-This project builds on the student's existing source code. ChatGPT assisted with debugging the form Load event, filtering, persistence path, and Visual Studio project setup. 
+This project builds on the student's existing source code. Claude assisted with debugging the form Load event, and filtering.
