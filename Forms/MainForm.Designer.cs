@@ -1,141 +1,425 @@
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace BudgetTracker.Forms
 {
     partial class MainForm
     {
         private System.ComponentModel.IContainer components = null;
 
+        private ComboBox cmbType;
+        private ComboBox cmbCategory;
+        private ComboBox cmbFilterMonth;
+        private ComboBox cmbFilterType;
+        private ComboBox cmbFilterCategory;
+
+        private TextBox txtAmount;
+        private TextBox txtNote;
+
+        private DateTimePicker dtpDate;
+        private DateTimePicker dtpFrom;
+        private DateTimePicker dtpTo;
+
+        private Button btnAdd;
+        private Button btnEdit;
+        private Button btnDelete;
+        private Button btnClear;
+        private Button btnFilter;
+        private Button btnResetFilters;
+
+        private DataGridView dgvTransactions;
+        private ListBox lstCategorySummary;
+
+        private Label lblTotalIncome;
+        private Label lblTotalExpense;
+        private Label lblNetBalance;
+        private Label lblDataPath;
+        private Label lblRecordCount;
+
+        private CheckBox chkDateRange;
+        private NumericUpDown numSummaryYear;
+
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
+            if (disposing && components != null)
                 components.Dispose();
-            }
+
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            this.lblType = new System.Windows.Forms.Label();
-            this.lblAmount = new System.Windows.Forms.Label();
-            this.lblCategory = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.lblNote = new System.Windows.Forms.Label();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.txtAmount = new System.Windows.Forms.TextBox();
-            this.cmbCategory = new System.Windows.Forms.ComboBox();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
-            this.txtNote = new System.Windows.Forms.TextBox();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.dgvTransactions = new System.Windows.Forms.DataGridView();
-            this.lblTotalIncome = new System.Windows.Forms.Label();
-            this.lblTotalExpense = new System.Windows.Forms.Label();
-            this.lblNetBalance = new System.Windows.Forms.Label();
-            this.cmbFilterMonth = new System.Windows.Forms.ComboBox();
-            this.cmbFilterType = new System.Windows.Forms.ComboBox();
-            this.cmbFilterCategory = new System.Windows.Forms.ComboBox();
-            this.btnFilter = new System.Windows.Forms.Button();
-            this.lstCategorySummary = new System.Windows.Forms.ListBox();
-            this.lblCatHeading = new System.Windows.Forms.Label();
-            this.chkDateRange = new System.Windows.Forms.CheckBox();
-            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.dtpTo = new System.Windows.Forms.DateTimePicker();
-            this.numSummaryYear = new System.Windows.Forms.NumericUpDown();
-            this.lblSummaryMonth = new System.Windows.Forms.Label();
-            this.lblSummaryYear = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSummaryYear)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // Labels and Inputs Layout
-            // 
-            this.lblType.Text = "Type:"; this.lblType.Location = new System.Drawing.Point(20, 20);
-            this.cmbType.Location = new System.Drawing.Point(100, 17); this.cmbType.Size = new System.Drawing.Size(150, 23);
+            SuspendLayout();
 
-            this.lblAmount.Text = "Amount:"; this.lblAmount.Location = new System.Drawing.Point(20, 55);
-            this.txtAmount.Location = new System.Drawing.Point(100, 52); this.txtAmount.Size = new System.Drawing.Size(150, 23);
+            Text = "Personal Budget Tracker - ITS203";
+            Font = new Font("Segoe UI", 10F);
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            ClientSize = new Size(1180, 760);
+            MinimumSize = new Size(1100, 740);
+            StartPosition = FormStartPosition.CenterScreen;
+            BackColor = Color.WhiteSmoke;
 
-            this.lblCategory.Text = "Category:"; this.lblCategory.Location = new System.Drawing.Point(20, 90);
-            this.cmbCategory.Location = new System.Drawing.Point(100, 87); this.cmbCategory.Size = new System.Drawing.Size(150, 23);
+            cmbType = new ComboBox
+            {
+                Dock = DockStyle.Fill,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
 
-            this.lblDate.Text = "Date:"; this.lblDate.Location = new System.Drawing.Point(20, 125);
-            this.dtpDate.Location = new System.Drawing.Point(100, 122); this.dtpDate.Size = new System.Drawing.Size(150, 23);
+            txtAmount = new TextBox { Dock = DockStyle.Fill };
 
-            this.lblNote.Text = "Note:"; this.lblNote.Location = new System.Drawing.Point(20, 160);
-            this.txtNote.Location = new System.Drawing.Point(100, 157); this.txtNote.Size = new System.Drawing.Size(150, 23);
+            cmbCategory = new ComboBox
+            {
+                Dock = DockStyle.Fill,
+                DropDownStyle = ComboBoxStyle.DropDown
+            };
 
-            // Buttons
-            this.btnAdd.Text = "Add"; this.btnAdd.Location = new System.Drawing.Point(20, 200); this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            this.btnEdit.Text = "Edit"; this.btnEdit.Location = new System.Drawing.Point(105, 200); this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            this.btnDelete.Text = "Delete"; this.btnDelete.Location = new System.Drawing.Point(190, 200); this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            this.btnClear.Text = "Clear"; this.btnClear.Location = new System.Drawing.Point(275, 200); this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            dtpDate = NewDatePicker();
 
-            // Filters
-            this.cmbFilterMonth.Location = new System.Drawing.Point(380, 17); this.cmbFilterMonth.Size = new System.Drawing.Size(80, 23);
-            this.cmbFilterType.Location = new System.Drawing.Point(470, 17); this.cmbFilterType.Size = new System.Drawing.Size(90, 23);
-            this.cmbFilterCategory.Location = new System.Drawing.Point(570, 17); this.cmbFilterCategory.Size = new System.Drawing.Size(100, 23);
-            this.btnFilter.Text = "Filter"; this.btnFilter.Location = new System.Drawing.Point(680, 16); this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
-            this.lblSummaryMonth.Text = "Summary month"; this.lblSummaryMonth.Location = new System.Drawing.Point(380, 0); this.lblSummaryMonth.AutoSize = true;
-            this.lblSummaryYear.Text = "Year"; this.lblSummaryYear.Location = new System.Drawing.Point(780, 0); this.lblSummaryYear.AutoSize = true;
-            this.numSummaryYear.Location = new System.Drawing.Point(780, 17); this.numSummaryYear.Size = new System.Drawing.Size(80, 23);
-            this.numSummaryYear.Minimum = 1900; this.numSummaryYear.Maximum = 2100; this.numSummaryYear.Value = 2026;
-            this.chkDateRange.Text = "Date range:"; this.chkDateRange.Location = new System.Drawing.Point(380, 51); this.chkDateRange.Size = new System.Drawing.Size(105, 23);
-            this.dtpFrom.Location = new System.Drawing.Point(490, 51); this.dtpFrom.Size = new System.Drawing.Size(160, 23); this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(680, 51); this.dtpTo.Size = new System.Drawing.Size(160, 23); this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            txtNote = new TextBox
+            {
+                Dock = DockStyle.Fill,
+                Multiline = true,
+                ScrollBars = ScrollBars.Vertical
+            };
 
-            // DataGrid
-            this.dgvTransactions.Location = new System.Drawing.Point(380, 85);
-            this.dgvTransactions.Size = new System.Drawing.Size(480, 185);
-            this.dgvTransactions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTransactions.MultiSelect = false;
-            this.dgvTransactions.ReadOnly = true;
-            this.dgvTransactions.AllowUserToAddRows = false;
-            this.dgvTransactions.SelectionChanged += new System.EventHandler(this.dgvTransactions_SelectionChanged);
+            btnAdd = NewButton("Add", btnAdd_Click);
+            btnEdit = NewButton("Edit", btnEdit_Click);
+            btnDelete = NewButton("Delete", btnDelete_Click);
+            btnClear = NewButton("Clear", btnClear_Click);
+            btnFilter = NewButton("Apply", btnFilter_Click);
+            btnResetFilters = NewButton("Reset", btnResetFilters_Click);
 
-            // Summary Labels
-            this.lblTotalIncome.Text = "Total Income: $0.00"; this.lblTotalIncome.Location = new System.Drawing.Point(380, 280); this.lblTotalIncome.AutoSize = true;
-            this.lblTotalExpense.Text = "Total Expense: $0.00"; this.lblTotalExpense.Location = new System.Drawing.Point(530, 280); this.lblTotalExpense.AutoSize = true;
-            this.lblNetBalance.Text = "Net Balance: $0.00"; this.lblNetBalance.Location = new System.Drawing.Point(680, 280); this.lblNetBalance.AutoSize = true;
+            btnEdit.Enabled = false;
+            btnDelete.Enabled = false;
 
-            // Category Summary
-            this.lblCatHeading.Text = "Category Expenses (Selected Month):"; this.lblCatHeading.Location = new System.Drawing.Point(20, 250); this.lblCatHeading.AutoSize = true;
-            this.lstCategorySummary.Location = new System.Drawing.Point(20, 275); this.lstCategorySummary.Size = new System.Drawing.Size(330, 95);
+            cmbFilterType = new ComboBox
+            {
+                Width = 130,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
 
-            // Form
-            this.ClientSize = new System.Drawing.Size(884, 390);
-            this.Controls.Add(this.lblType); this.Controls.Add(this.cmbType);
-            this.Controls.Add(this.lblAmount); this.Controls.Add(this.txtAmount);
-            this.Controls.Add(this.lblCategory); this.Controls.Add(this.cmbCategory);
-            this.Controls.Add(this.lblDate); this.Controls.Add(this.dtpDate);
-            this.Controls.Add(this.lblNote); this.Controls.Add(this.txtNote);
-            this.Controls.Add(this.btnAdd); this.Controls.Add(this.btnEdit);
-            this.Controls.Add(this.btnDelete); this.Controls.Add(this.btnClear);
-            this.Controls.Add(this.cmbFilterMonth); this.Controls.Add(this.cmbFilterType);
-            this.Controls.Add(this.cmbFilterCategory); this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.chkDateRange); this.Controls.Add(this.dtpFrom); this.Controls.Add(this.dtpTo);
-            this.Controls.Add(this.lblSummaryMonth); this.Controls.Add(this.lblSummaryYear); this.Controls.Add(this.numSummaryYear);
-            this.Controls.Add(this.dgvTransactions);
-            this.Controls.Add(this.lblTotalIncome); this.Controls.Add(this.lblTotalExpense); this.Controls.Add(this.lblNetBalance);
-            this.Controls.Add(this.lblCatHeading); this.Controls.Add(this.lstCategorySummary);
-            this.Text = "Personal Budget Tracker - ITS203";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransactions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSummaryYear)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            cmbFilterCategory = new ComboBox
+            {
+                Width = 170,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            cmbFilterMonth = new ComboBox
+            {
+                Width = 65,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            numSummaryYear = new NumericUpDown
+            {
+                Width = 85,
+                Minimum = 1900,
+                Maximum = 9998,
+                Value = DateTime.Now.Year
+            };
+
+            chkDateRange = new CheckBox
+            {
+                Text = "Date range",
+                AutoSize = true,
+                Margin = new Padding(5, 8, 5, 3)
+            };
+            chkDateRange.CheckedChanged += chkDateRange_CheckedChanged;
+
+            dtpFrom = NewDatePicker();
+            dtpFrom.Dock = DockStyle.None;
+            dtpFrom.Width = 130;
+
+            dtpTo = NewDatePicker();
+            dtpTo.Dock = DockStyle.None;
+            dtpTo.Width = 130;
+
+            dgvTransactions = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                ReadOnly = true,
+                MultiSelect = false,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                AllowUserToAddRows = false,
+                AllowUserToDeleteRows = false,
+                AutoSizeColumnsMode =
+                    DataGridViewAutoSizeColumnsMode.Fill,
+                RowHeadersVisible = false,
+                BackgroundColor = Color.White,
+                AutoGenerateColumns = true
+            };
+            dgvTransactions.SelectionChanged +=
+                dgvTransactions_SelectionChanged;
+
+            lblTotalIncome = NewLabel("Total Income: $0.00");
+            lblTotalExpense = NewLabel("Total Expense: $0.00");
+            lblNetBalance = NewLabel("Net Balance: $0.00");
+
+            lstCategorySummary = new ListBox
+            {
+                Dock = DockStyle.Fill,
+                IntegralHeight = false,
+                HorizontalScrollbar = true
+            };
+
+            lblDataPath = new Label
+            {
+                Dock = DockStyle.Fill,
+                AutoEllipsis = true,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            lblRecordCount = new Label
+            {
+                Dock = DockStyle.Fill,
+                AutoEllipsis = true,
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            var root = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                Padding = new Padding(16),
+                RowCount = 3,
+                ColumnCount = 1
+            };
+
+            root.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 48));
+            root.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100));
+            root.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 36));
+
+            var title = new Label
+            {
+                Text = "Personal Budget Tracker",
+                Dock = DockStyle.Fill,
+                Font = new Font(
+                    "Segoe UI", 18F, FontStyle.Bold),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            root.Controls.Add(title, 0, 0);
+
+            var body = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 1
+            };
+
+            body.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 340));
+            body.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100));
+            body.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100));
+
+            root.Controls.Add(body, 0, 1);
+            root.Controls.Add(lblDataPath, 0, 2);
+
+            var left = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 5,
+                Padding = new Padding(0, 0, 12, 0)
+            };
+
+            left.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 32));
+            left.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 238));
+            left.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 86));
+            left.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 40));
+            left.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100));
+
+            left.Controls.Add(
+                NewLabel("Transaction details", true), 0, 0);
+
+            var inputs = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 2,
+                RowCount = 5
+            };
+
+            inputs.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Absolute, 80));
+            inputs.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100));
+
+            for (int i = 0; i < 4; i++)
+                inputs.RowStyles.Add(
+                    new RowStyle(SizeType.Absolute, 38));
+
+            inputs.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100));
+
+            Control[] fields =
+            {
+                cmbType, txtAmount, cmbCategory, dtpDate, txtNote
+            };
+
+            string[] captions =
+            {
+                "Type", "Amount ($)", "Category", "Date", "Note"
+            };
+
+            for (int i = 0; i < fields.Length; i++)
+            {
+                inputs.Controls.Add(NewLabel(captions[i]), 0, i);
+                fields[i].Margin = new Padding(3, 5, 3, 5);
+                inputs.Controls.Add(fields[i], 1, i);
+            }
+
+            left.Controls.Add(inputs, 0, 1);
+
+            var actions = NewFlow();
+            actions.Controls.AddRange(new Control[]
+            {
+                btnAdd, btnEdit, btnDelete, btnClear
+            });
+            left.Controls.Add(actions, 0, 2);
+
+            left.Controls.Add(
+                NewLabel("Expenses for the summary month", true),
+                0, 3);
+            left.Controls.Add(lstCategorySummary, 0, 4);
+
+            body.Controls.Add(left, 0, 0);
+
+            var right = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 7
+            };
+
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 32));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 44));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 44));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 40));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 48));
+            right.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 44));
+
+            right.Controls.Add(
+                NewLabel("Transactions and table filters", true),
+                0, 0);
+
+            var filters = NewFlow();
+            filters.Controls.AddRange(new Control[]
+            {
+                NewLabel("Type"),
+                cmbFilterType,
+                NewLabel("Category"),
+                cmbFilterCategory,
+                btnFilter,
+                btnResetFilters
+            });
+            right.Controls.Add(filters, 0, 1);
+
+            var dates = NewFlow();
+            dates.Controls.AddRange(new Control[]
+            {
+                chkDateRange,
+                NewLabel("From"),
+                dtpFrom,
+                NewLabel("To"),
+                dtpTo
+            });
+            right.Controls.Add(dates, 0, 2);
+
+            right.Controls.Add(dgvTransactions, 0, 3);
+            right.Controls.Add(lblRecordCount, 0, 4);
+
+            var summarySelectors = NewFlow();
+            summarySelectors.Controls.AddRange(new Control[]
+            {
+                NewLabel("Monthly summary", true),
+                NewLabel("Month"),
+                cmbFilterMonth,
+                NewLabel("Year"),
+                numSummaryYear,
+                NewLabel("Click Apply to refresh")
+            });
+            right.Controls.Add(summarySelectors, 0, 5);
+
+            var totals = NewFlow();
+            totals.Controls.AddRange(new Control[]
+            {
+                lblTotalIncome,
+                lblTotalExpense,
+                lblNetBalance
+            });
+            right.Controls.Add(totals, 0, 6);
+
+            body.Controls.Add(right, 1, 0);
+
+            Controls.Add(root);
+            ResumeLayout(true);
         }
 
-        private System.Windows.Forms.Label lblType, lblAmount, lblCategory, lblDate, lblNote, lblTotalIncome, lblTotalExpense, lblNetBalance, lblCatHeading;
-        private System.Windows.Forms.TextBox txtAmount, txtNote;
-        private System.Windows.Forms.ComboBox cmbType, cmbCategory, cmbFilterMonth, cmbFilterType, cmbFilterCategory;
-        private System.Windows.Forms.DateTimePicker dtpDate;
-        private System.Windows.Forms.Button btnAdd, btnEdit, btnDelete, btnClear, btnFilter;
-        private System.Windows.Forms.DataGridView dgvTransactions;
-        private System.Windows.Forms.ListBox lstCategorySummary;
-        private System.Windows.Forms.CheckBox chkDateRange;
-        private System.Windows.Forms.DateTimePicker dtpFrom, dtpTo;
-        private System.Windows.Forms.NumericUpDown numSummaryYear;
-        private System.Windows.Forms.Label lblSummaryMonth, lblSummaryYear;
+        private static Label NewLabel(
+            string text, bool bold = false)
+        {
+            return new Label
+            {
+                Text = text,
+                AutoSize = true,
+                Margin = new Padding(4, 8, 8, 4),
+                Font = new Font(
+                    "Segoe UI",
+                    10F,
+                    bold ? FontStyle.Bold : FontStyle.Regular)
+            };
+        }
+
+        private static FlowLayoutPanel NewFlow()
+        {
+            return new FlowLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                WrapContents = true,
+                AutoScroll = true
+            };
+        }
+
+        private static Button NewButton(
+            string text, System.EventHandler handler)
+        {
+            var button = new Button
+            {
+                Text = text,
+                Size = new Size(76, 34),
+                Margin = new Padding(3)
+            };
+
+            button.Click += handler;
+            return button;
+        }
+
+        private static DateTimePicker NewDatePicker()
+        {
+            return new DateTimePicker
+            {
+                Format = DateTimePickerFormat.Custom,
+                CustomFormat = "dd MMM yyyy",
+                Dock = DockStyle.Fill
+            };
+        }
     }
 }
